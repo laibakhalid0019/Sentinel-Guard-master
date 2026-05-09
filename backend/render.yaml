@@ -1,0 +1,16 @@
+# Render.com deployment configuration
+services:
+  - type: web
+    name: sentinelguard-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./sentinelguard.db
+      - key: BACKEND_CORS_ORIGINS
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
+
